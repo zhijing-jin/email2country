@@ -10,19 +10,24 @@ pip install --upgrade git+git://github.com/zhijing-jin/email2country.git
 ## How to Run
 Function 1: Find the country where the email server is located:
 ```python
->>> from email2country import Email
->>> addr = 'zhijing@csail.mit.edu'
+>>> from email2country import Email, email2country
+>>> email2country('zhijing@mit.edu')
+'United States'
+
+>>> addr = 'zhijing@mit.edu'
 >>> Email(addr).country
 'United States'
 
->>> addr = 'connect.hku.hk.'
+>>> addr = 'connect.hku.hk'
 >>> Email(addr).country
 'Hong Kong'
 ```
 Function 2: Find the country where the institution of this email address is located:
 ```python
->>> from email2country import Email
->>> addr = 'connect.hku.hk.'
+>>> from email2country import Email, email2institution_country
+>>> email2institution_country('connect.hku.hk')
+
+>>> addr = 'connect.hku.hk'
 >>> Email(addr).institution_country
 'Hong Kong'
 
