@@ -1,4 +1,5 @@
-This is an easy-to-use Python package to look up the country given an email address. The GitHub project is [email2country](https://github.com/zhijing-jin/email2country).
+# email2country (Python Package)
+This is an easy-to-use Python package to look up the country given an email address. The GitHub project is at [email2country](https://github.com/zhijing-jin/email2country).
 
 ## Installation
 Requirement: Python 3
