@@ -1,4 +1,4 @@
-class Email:
+class EmailCountryChecker:
     '''
     original files:
     https://raw.githubusercontent.com/flyingcircusio/pycountry/master/src/pycountry/databases/iso3166-1.json
@@ -6,10 +6,10 @@ class Email:
     https://en.wikipedia.org/wiki/List_of_Internet_top-level_domains#Country_code_top-level_domains
     '''
 
-    def __init__(self, email_addr):
-        self.domain = email_addr.rsplit('@')[-1].strip('.')
+    def __init__(self):
         self.code2country, self.alpha2country, self.uni_domain2country = \
             self.load_dicts()
+        self.cache_domain2ip2country = {}
 
     @staticmethod
     def load_dicts():
@@ -68,6 +68,10 @@ class Email:
         '''
         import socket
         import requests
+
+        if domain in self.cache_domain2ip2country:
+            return self.cache_domain2ip2country[domain]
+
         try:
             ip = socket.gethostbyname(domain)
         except:
@@ -75,28 +79,33 @@ class Email:
             try:
                 ip = socket.gethostbyname(short_domain)
             except:
+                self.cache_domain2ip2country[domain] = None
                 return None
 
         url = 'https://ipvigilante.com/{}/country_iso_code'.format(ip)
         r = requests.get(url)
         if r.status_code == 200:
             alpha2 = r.json()['data']['country_iso_code']
-            return self.alpha2country[alpha2]
+            country = self.alpha2country[alpha2]
+            self.cache_domain2ip2country[domain] = country
+            return country
+
+        self.cache_domain2ip2country[domain] = None
         return None
 
-    @property
-    def institution_country(self):
-        domain2 = '.'.join(self.domain.rsplit('.', 2)[-2:])
+    def get_institution_country(self, email_addr):
+        domain = email_addr.rsplit('@')[-1].strip('.')
+        domain2 = '.'.join(domain.rsplit('.', 2)[-2:])
         if domain2 in self.generic_emails:
             print(
                 '[Info] Email domain "{}" is generic. There is no specific country.'
-                    .format(self.domain))
+                    .format(domain))
         else:
-            return self.country
+            return self.get_country(domain)
 
-    @property
-    def country(self):
-        domain = self.domain
+    def get_country(self, email_addr):
+        domain = email_addr.rsplit('@')[-1].strip('.')
+
         code2country = self.code2country
         uni_domain2country = self.uni_domain2country
 
@@ -140,12 +149,38 @@ class Email:
         return tld
 
 
+class Email:
+    def __init__(self, email_addr):
+        self.email_addr = email_addr
+        self.country_checker = EmailCountryChecker()
+
+    @property
+    def institution_country(self):
+        return self.country_checker.get_institution_country(self.email_addr)
+
+    @property
+    def country(self):
+        return self.country_checker.get_country(self.email_addr)
+
+
 def email2country(email_addr):
     return Email(email_addr).country
 
 
 def email2institution_country(email_addr):
     return Email(email_addr).institution_country
+
+
+def batch_email2country(list_email_addr):
+    checker = EmailCountryChecker()
+    countries = [checker.get_country(i) for i in list_email_addr]
+    return countries
+
+
+def batch_email2institution_country(list_email_addr):
+    checker = EmailCountryChecker()
+    countries = [checker.get_institution_country(i) for i in list_email_addr]
+    return countries
 
 
 def test():
