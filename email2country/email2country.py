@@ -15,11 +15,12 @@ class Email:
     def load_dicts():
         import os
         import json
+        import pkg_resources
 
-        from pathlib import Path
-        folder = Path(__file__).parent.absolute()
-        FILE1 = os.path.join(folder, 'data/countries_3166-1.json')
-        FILE2 = os.path.join(folder, 'data/universities.json')
+        # from pathlib import Path
+        # folder = Path(__file__).parent.absolute()
+        FILE1 = pkg_resources.resource_filename('email2country', 'data/countries_3166-1.json')
+        FILE2 = pkg_resources.resource_filename('email2country', 'data/universities.json')
 
         with open(FILE1) as f:
             countries = json.load(f)
