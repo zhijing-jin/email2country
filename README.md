@@ -1,5 +1,7 @@
 # email2country (Python Package)
-This is an easy-to-use Python package to look up the country given an email address. The GitHub project is at [email2country](https://github.com/zhijing-jin/email2country).
+This is an easy-to-use Python package to look up the country given an email address. 
+- GitHub project: [https://github.com/zhijing-jin/email2country](https://github.com/zhijing-jin/email2country).
+- PyPI package: `pip install `[`email2country`](https://pypi.org/project/email2country/) 
 
 ## Installation
 Requirement: Python 3
@@ -23,7 +25,7 @@ Or you can just use the domain
 ```
 #### Function 2: Find the country where the institution of this email address is located
 ```python
->>> from email2country import Email, email2institution_country
+>>> from email2country import email2institution_country
 
 >>> email2institution_country('zhijing@mit.edu')
 'United States'
@@ -48,6 +50,7 @@ Or you can just use the domain
 # Similarly, you can try email2country lookup
 >>> from email2country import batch_email2country
 >>> batch_email2country(['nyu.edu','gmail.com', 'hku.hk'])
+['United States', 'United States', 'Hong Kong']
 ```
 #### Function 4: Customize your own function
 You can use the `EmailCountryChecker` object directly:
