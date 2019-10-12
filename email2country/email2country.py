@@ -1,3 +1,17 @@
+class Email:
+    def __init__(self, email_addr):
+        self.email_addr = email_addr
+        self.country_checker = EmailCountryChecker()
+
+    @property
+    def institution_country(self):
+        return self.country_checker.get_institution_country(self.email_addr)
+
+    @property
+    def country(self):
+        return self.country_checker.get_country(self.email_addr)
+
+
 class EmailCountryChecker:
     '''
     original files:
@@ -147,20 +161,6 @@ class EmailCountryChecker:
         import pdb;
         pdb.set_trace()
         return tld
-
-
-class Email:
-    def __init__(self, email_addr):
-        self.email_addr = email_addr
-        self.country_checker = EmailCountryChecker()
-
-    @property
-    def institution_country(self):
-        return self.country_checker.get_institution_country(self.email_addr)
-
-    @property
-    def country(self):
-        return self.country_checker.get_country(self.email_addr)
 
 
 def email2country(email_addr):
