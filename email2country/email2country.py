@@ -19,8 +19,8 @@ class Email:
 
         # from pathlib import Path
         # folder = Path(__file__).parent.absolute()
-        FILE1 = pkg_resources.resource_filename('email2country', 'data/countries_3166-1.json')
-        FILE2 = pkg_resources.resource_filename('email2country', 'data/universities.json')
+        FILE1 = pkg_resources.resource_filename('email2country', 'src_data/countries_3166-1.json')
+        FILE2 = pkg_resources.resource_filename('email2country', 'src_data/universities.json')
 
         with open(FILE1) as f:
             countries = json.load(f)
