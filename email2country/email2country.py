@@ -16,7 +16,8 @@ class Email:
         import os
         import json
 
-        folder = os.path.abspath(__file__)
+        from pathlib import Path
+        folder = Path().absolute()
         FILE1 = os.path.join(folder, 'data/countries_3166-1.json')
         FILE2 = os.path.join(folder, 'data/universities.json')
 
