@@ -1,15 +1,18 @@
 class Email:
-    def __init__(self, email_addr):
+    def __init__(self, email_addr, enable_warning=True):
         self.email_addr = email_addr
         self.country_checker = EmailCountryChecker()
+        self.enable_warning = enable_warning
 
     @property
     def institution_country(self):
-        return self.country_checker.get_institution_country(self.email_addr)
+        return self.country_checker.get_institution_country(
+            self.email_addr, enable_warning=self.enable_warning)
 
     @property
     def country(self):
-        return self.country_checker.get_country(self.email_addr)
+        return self.country_checker.get_country(
+            self.email_addr, enable_warning=self.enable_warning)
 
 
 class EmailCountryChecker:
@@ -107,17 +110,18 @@ class EmailCountryChecker:
         self.cache_domain2ip2country[domain] = None
         return None
 
-    def get_institution_country(self, email_addr):
+    def get_institution_country(self, email_addr, enable_warning=True):
         domain = email_addr.rsplit('@')[-1].strip('.')
         domain2 = '.'.join(domain.rsplit('.', 2)[-2:])
         if domain2 in self.generic_emails:
-            print(
-                '[Info] Email domain "{}" is generic. There is no specific country.'
-                    .format(domain))
+            if enable_warning:
+                print(
+                    '[Info] Email domain "{}" is generic. There is no specific country.'
+                        .format(domain))
         else:
-            return self.get_country(domain)
+            return self.get_country(domain, enable_warning=enable_warning)
 
-    def get_country(self, email_addr):
+    def get_country(self, email_addr, enable_warning=True):
         domain = email_addr.rsplit('@')[-1].strip('.')
 
         code2country = self.code2country
@@ -134,7 +138,8 @@ class EmailCountryChecker:
         country = self.domain2ip2country(domain)
         if country: return country
 
-        print('[Info] Country not found for "{}"'.format(domain))
+        if enable_warning:
+            print('[Info] Country not found for "{}"'.format(domain))
 
     @staticmethod
     def download_tld():
@@ -163,23 +168,30 @@ class EmailCountryChecker:
         return tld
 
 
-def email2country(email_addr):
-    return Email(email_addr).country
+def email2country(email_addr, enable_warning=True):
+    return Email(email_addr, enable_warning=enable_warning).country
 
 
-def email2institution_country(email_addr):
-    return Email(email_addr).institution_country
+def email2institution_country(email_addr, enable_warning=True):
+    return Email(email_addr, enable_warning=enable_warning).institution_country
 
 
-def batch_email2country(list_email_addr):
+def batch_email2country(list_email_addr, enable_warning=False):
+    if not isinstance(list_email_addr, list):
+        list_email_addr = [list_email_addr]
     checker = EmailCountryChecker()
-    countries = [checker.get_country(i) for i in list_email_addr]
+    countries = [checker.get_country(i, enable_warning=enable_warning)
+                 for i in list_email_addr]
     return countries
 
 
-def batch_email2institution_country(list_email_addr):
+def batch_email2institution_country(list_email_addr, enable_warning=False):
+    if not isinstance(list_email_addr, list):
+        list_email_addr = [list_email_addr]
     checker = EmailCountryChecker()
-    countries = [checker.get_institution_country(i) for i in list_email_addr]
+    countries = [
+        checker.get_institution_country(i, enable_warning=enable_warning)
+        for i in list_email_addr]
     return countries
 
 
