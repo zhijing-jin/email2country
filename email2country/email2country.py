@@ -184,6 +184,9 @@ def batch_email2institution_country(list_email_addr):
 
 
 def test():
+    email2country('zhijing@csail.mit.edu')
+    batch_email2institution_country(['zhijing@csail.mit.edu'])
+
     addr = 'zhijing@csail.mit.edu'
     country = Email(addr).country
 
