@@ -197,7 +197,7 @@ def batch_email2institution_country(list_email_addr, enable_warning=False):
 
 def test():
     email2country('zhijing@csail.mit.edu')
-    batch_email2institution_country(['zhijing@csail.mit.edu'])
+    batch_email2institution_country(['nyu.edu','gmail.com', 'hku.hk'], enable_warning=True)
 
     addr = 'zhijing@csail.mit.edu'
     country = Email(addr).country
