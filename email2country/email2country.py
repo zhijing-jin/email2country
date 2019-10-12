@@ -13,10 +13,11 @@ class Email:
 
     @staticmethod
     def load_dicts():
+        import os
         import json
 
-        FILE1 = 'data/countries_3166-1.json'
-        FILE2 = 'data/universities.json'
+        FILE1 = os.path.join(__file__, 'data/countries_3166-1.json')
+        FILE2 = os.path.join(__file__, 'data/universities.json')
 
         with open(FILE1) as f:
             countries = json.load(f)
