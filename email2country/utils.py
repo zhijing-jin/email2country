@@ -1941,8 +1941,7 @@ countries = [
     }
 ]
 
-universities = 
-[
+universities = [
   {
     "web_pages": [
       "http://www.marywood.edu"
