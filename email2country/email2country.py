@@ -17,13 +17,14 @@ class Email:
         import json
         import pkg_resources
 
-        # from pathlib import Path
-        # folder = Path(__file__).parent.absolute()
         FILE1 = pkg_resources.resource_filename('email2country', 'src_data/countries_3166-1.json')
         FILE2 = pkg_resources.resource_filename('email2country', 'src_data/universities.json')
 
-        with open(FILE1) as f:
-            countries = json.load(f)
+        if os.path.isfile(FILE1):
+            with open(FILE1) as f:
+                countries = json.load(f)
+        else:
+            from .utils import countries
 
         code2country = {
             c['tld'] if 'tld' in c else c['alpha_2'].lower():
@@ -33,8 +34,12 @@ class Email:
             c['alpha_2']: c['common_name'] if 'common_name' in c else c['name']
             for c in countries if 'alpha_2' in c}
 
-        with open(FILE2) as f:
-            universities = json.load(f)
+        if os.path.isfile(FILE1):
+            with open(FILE2) as f:
+                universities = json.load(f)
+        else:
+            from .utils import universities
+
         uni_domain2country = {}
         for u in universities:
             for domain in u['domains']:
