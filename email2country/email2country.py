@@ -16,8 +16,9 @@ class Email:
         import os
         import json
 
-        FILE1 = os.path.join(__file__, '../data/countries_3166-1.json')
-        FILE2 = os.path.join(__file__, '../data/universities.json')
+        folder = os.path.abspath(__file__)
+        FILE1 = os.path.join(folder, 'data/countries_3166-1.json')
+        FILE2 = os.path.join(folder, 'data/universities.json')
 
         with open(FILE1) as f:
             countries = json.load(f)
