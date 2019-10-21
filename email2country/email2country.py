@@ -45,13 +45,13 @@ class EmailCountryChecker:
         else:
             from .utils import countries
 
-        code2country = {
+        code2country = defaultdict(lambda: None, {
             c['tld'] if 'tld' in c else c['alpha_2'].lower():
                 c['common_name'] if 'common_name' in c else c['name']
-            for c in countries}
-        alpha2country = {
+            for c in countries})
+        alpha2country = defaultdict(lambda: None, {
             c['alpha_2']: c['common_name'] if 'common_name' in c else c['name']
-            for c in countries if 'alpha_2' in c}
+            for c in countries if 'alpha_2' in c})
 
         if os.path.isfile(FILE1):
             with open(FILE2) as f:
@@ -59,7 +59,7 @@ class EmailCountryChecker:
         else:
             from .utils import universities
 
-        uni_domain2country = {}
+        uni_domain2country = defaultdict(lambda: None)
         for u in universities:
             for domain in u['domains']:
                 alpha2 = u['alpha_two_code']
