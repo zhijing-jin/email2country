@@ -33,6 +33,7 @@ class EmailCountryChecker:
         import os
         import json
         import pkg_resources
+        from collections import defaultdict
 
         FILE1 = pkg_resources.resource_filename('email2country',
                                                 'src_data/countries_3166-1.json')
