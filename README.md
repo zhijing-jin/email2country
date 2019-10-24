@@ -1,7 +1,9 @@
 # email2country (Python Package)
+[![Pypi](https://img.shields.io/pypi/v/email2country.svg)](https://pypi.org/project/email2country)
+
 This is an easy-to-use Python package to look up the country given an email address. 
 - GitHub project: [https://github.com/zhijing-jin/email2country](https://github.com/zhijing-jin/email2country).
-- PyPI package: `pip install `[`email2country`](https://pypi.org/project/email2country/) 
+- PyPI package: `pip install`[`email2country`](https://pypi.org/project/email2country/) 
 
 ## Installation
 Requirement: Python 3
