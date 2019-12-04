@@ -35,16 +35,16 @@ class EmailCountryChecker:
         import pkg_resources
         from collections import defaultdict
 
-        FILE1 = pkg_resources.resource_filename('email2country',
-                                                'src_data/countries_3166-1.json')
-        FILE2 = pkg_resources.resource_filename('email2country',
-                                                'src_data/universities.json')
-
-        if os.path.isfile(FILE1):
-            with open(FILE1) as f:
-                countries = json.load(f)
+        if __name__ == '__main__':
+            from utils import countries
         else:
-            from .utils import countries
+            FILE1 = pkg_resources.resource_filename('email2country',
+                                                    'src_data/countries_3166-1.json')
+            if os.path.isfile(FILE1):
+                with open(FILE1) as f:
+                    countries = json.load(f)
+            else:
+                from .utils import countries
 
         code2country = defaultdict(lambda: None, {
             c['tld'] if 'tld' in c else c['alpha_2'].lower():
@@ -54,11 +54,16 @@ class EmailCountryChecker:
             c['alpha_2']: c['common_name'] if 'common_name' in c else c['name']
             for c in countries if 'alpha_2' in c})
 
-        if os.path.isfile(FILE1):
-            with open(FILE2) as f:
-                universities = json.load(f)
+        if __name__ == '__main__':
+            from utils import universities
         else:
-            from .utils import universities
+            FILE2 = pkg_resources.resource_filename('email2country',
+                                                    'src_data/universities.json')
+            if os.path.isfile(FILE2):
+                with open(FILE2) as f:
+                    universities = json.load(f)
+            else:
+                from .utils import universities
 
         uni_domain2country = defaultdict(lambda: None)
         for u in universities:
@@ -197,7 +202,10 @@ def batch_email2institution_country(list_email_addr, enable_warning=False):
 
 
 def test():
+    email2country('example@fake.whatever')
+
     email2country('zhijing@csail.mit.edu')
+
     batch_email2institution_country(['nyu.edu','gmail.com', 'hku.hk'], enable_warning=True)
 
     addr = 'zhijing@csail.mit.edu'
